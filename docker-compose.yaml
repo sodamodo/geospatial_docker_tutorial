@@ -1,0 +1,19 @@
+version: '2'
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    command: python3 -u manage.py runserver 0.0.0.0:8000
+    network_mode: host
+    depends_on:
+      - database
+
+  database:
+    container_name: database
+    build:
+      context: ./database
+    ports:
+      - "5432:5432"
+    network_mode: host

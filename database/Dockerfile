@@ -1,0 +1,6 @@
+FROM kartoza/postgis:9.6-2.4
+VOLUME "/data"
+ENV POSTGRES_USER=gisuser
+ENV POSTGRES_PASS=password
+ENV POSTGRES_DBNAME=gis
+EXPOSE 5432
