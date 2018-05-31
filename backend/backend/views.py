@@ -1,6 +1,8 @@
-from database import get_cursor
+from backend.database import get_cursor
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def get_points(request):
     cur = get_cursor()
 
