@@ -30,7 +30,7 @@
 
 <script>
 $(document).ready(()=>{
-  var mymap = L.map('map').setView([37.725685, -122.15683], 5);
+  var mymap = L.map('map').setView([37.725685, -122.15683], 7);
 
   L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
     maxZoom: 18,
@@ -41,6 +41,7 @@ $(document).ready(()=>{
   }).addTo(mymap);
 
     $.post("http://0.0.0.0:8000/get_points/", (results) => {
+			  console.log(results)
 			 	L.geoJSON(results).addTo(mymap);
     });
  })

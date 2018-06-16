@@ -17,9 +17,14 @@ from django.conf.urls.static import static
 from django.urls import path
 from backend import settings
 from django.views.generic import TemplateView
-from backend.views import get_points
+from backend.views import get_points, populate_routes, get_route_delay, create_fixtures
 
 urlpatterns = [
 	path(r'', TemplateView.as_view(template_name="index.html")),
-    path('get_points/', get_points)
+    path('get_points/', get_points),
+    path('populate_routes/', populate_routes),
+    path('get_route_delay/', get_route_delay),
+    path('create_fixtures/', create_fixtures)
+
+
 	] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
