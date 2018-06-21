@@ -14,6 +14,7 @@ def get_points(request):
     print("data in view-->", vehicles_geojson)
     return JsonResponse(vehicles_geojson)
 
+@csrf_exempt
 def get_route_delay(request):
 
     # The client will supply this with a post request
@@ -41,10 +42,23 @@ def get_route_delay(request):
         delay_list.append(prediction.get("PredictedDelayInSeconds"))
 
     # Im calling this 'delay' for now but what it's really recording is ontimeness
+    # To go from native dictionary to JSON, you have to dump to string then load to JSON
     avg_delay = abs(sum(delay_list)/len(delay_list))
-    print(json.dumps({"average_delay": avg_delay}))
+    avg_delay_dict = json.dumps({"average_delay": avg_delay})
+    avg_delay_json = json.loads(avg_delay_dict)
 
-    return None
+    return JsonResponse(avg_delay_json)
+
+@csrf_exempt
+def serve_route_shp_json(request):
+    route="72"
+
+    cur = get_cursor()
+    cur.execute("SELECT ST_AsGeoJSON(geom :: geometry) FROM mar2512shape WHERE pub_rte='{}'".format(route))
+    response = cur.fetchone()[0]
+    response = json.loads(response)
+
+    return JsonResponse(response)
 
 
 def populate_routes(request):

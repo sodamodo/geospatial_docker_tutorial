@@ -40,10 +40,15 @@ $(document).ready(()=>{
     id: 'mapbox.streets'
   }).addTo(mymap);
 
-    $.post("http://0.0.0.0:8000/get_points/", (results) => {
+    // $.post("http://0.0.0.0:8000/get_points/", (results) => {
+		// 	  console.log(results)
+		// 	 	L.geoJSON(results).addTo(mymap);
+    // });
+		$.post("http://0.0.0.0:8000/get_route_line/", (results) => {
 			  console.log(results)
 			 	L.geoJSON(results).addTo(mymap);
-    });
+		});
+
  })
 </script>
 </body>
