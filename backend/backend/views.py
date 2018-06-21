@@ -33,9 +33,14 @@ def get_route_delay(request):
         response = json.dumps(response)
         response = json.loads(response)
 
-        if response.get("RouteName") == route:
-            predictions.append(response)
 
+
+        print("Routename type-->", type(response.get("RouteName")))
+
+        if type(response) == "dict":
+            if response.get("RouteName") == route:
+                predictions.append(response)
+    
 
     for prediction in predictions:
         print(prediction.get("PredictedDelayInSeconds"))
@@ -49,6 +54,11 @@ def get_route_delay(request):
 
     return JsonResponse(avg_delay_json)
 
+#####
+# Split get_route_delay into 2 functions, one will just return route
+# supplied by client post request so that it can be passed to both get_route_delay
+# serve_delay_line_feature
+##### (supplied)
 @csrf_exempt
 def serve_route_shp_json(request):
     route="72"
@@ -60,6 +70,25 @@ def serve_route_shp_json(request):
 
     return JsonResponse(response)
 
+def serve_delay_line_feature(request):
+    route="72"
+    print(get_route_delay(request))
+
+    response = """
+                        {
+                      "type": "Feature",
+                      "geometry": {
+                        "type": "MultiLineString",
+                        "coordinates": {cordinates}
+                      },
+                      "properties": {
+                        "name": {route},
+                        "delay": {delay}
+                      }
+                    }
+                        """.format(delay=get_route_delay(request), coordinates=serve_route_shp_json(request))
+
+    return JsonResponse(json.loads(response))
 
 def populate_routes(request):
     pass
