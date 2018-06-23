@@ -27,6 +27,7 @@
 <body>
 
 <div id="map"></div>
+<div id="json_dump"></div>
 
 <script>
 $(document).ready(()=>{
@@ -40,10 +41,15 @@ $(document).ready(()=>{
     id: 'mapbox.streets'
   }).addTo(mymap);
 
-    $.post("http://0.0.0.0:8000/get_points/", (results) => {
+    $.post("http://localhost:8000/serve_delay_line_feature/", (results) => {
 			 	L.geoJSON(results).addTo(mymap);
+
+
     });
  })
+
 </script>
+
+
 </body>
 </html>
